@@ -17,9 +17,11 @@ import com.example.newroomproject.DatePickerFragment
 import com.example.newroomproject.data.user.UserParamsEntity
 import com.example.newroomproject.databinding.FragmentStartScreenBinding
 import com.example.newroomproject.ui.dashBoard.DashBoardFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
 import kotlin.toString
 
+@AndroidEntryPoint
 class StartScreenFragment : Fragment(), DatePickerFragment.OnDateSetListener {
 
     private val binding: FragmentStartScreenBinding by lazy {

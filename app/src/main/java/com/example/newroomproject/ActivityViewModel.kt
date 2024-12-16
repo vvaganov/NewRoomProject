@@ -1,16 +1,18 @@
 package com.example.newroomproject
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import com.example.newroomproject.data.AppDatabase
+import androidx.lifecycle.ViewModel
+import com.example.newroomproject.data.user.UserDao
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ActivityViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val db = AppDatabase.getInstance(application).userDao()
+@HiltViewModel
+class ActivityViewModel @Inject constructor(
+    private val userParamsDao: UserDao) : ViewModel() {
 
     suspend fun getRowCount() = withContext(Dispatchers.IO) {
-        db.getRowCountUserParams() > 0
+        userParamsDao.getRowCountUserParams() > 0
     }
 }
