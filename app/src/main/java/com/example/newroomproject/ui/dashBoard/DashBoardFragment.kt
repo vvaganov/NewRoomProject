@@ -12,7 +12,7 @@ import com.example.newroomproject.databinding.FragmentDashBoardBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DashBoardFragment : Fragment() {
+class DashBoardFragment : Fragment(){
 
     private val binding: FragmentDashBoardBinding by lazy {
         FragmentDashBoardBinding.inflate(
@@ -41,5 +41,14 @@ class DashBoardFragment : Fragment() {
 
             }
         }
+
+        binding.tvData.setOnClickListener{
+            val dialog = ConsumptionDialogFragment{ inputText ->
+                viewModel.insertCalorieConsumption(inputText)
+            }
+            dialog.show(parentFragmentManager, "ConsumptionDialogFragment")
+
+        }
     }
+
 }

@@ -10,4 +10,5 @@
     <string name="hint_input_gender">Укажите свой пол</string>
     <string name="button_save">Сохранить</string>
     <string name="hint_input_name">Укажие Ваше имя</string>
+    <string name="hint_input_count_calories">Укажите количество каллорий</string>
 </resources>

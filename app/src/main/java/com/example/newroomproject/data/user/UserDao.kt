@@ -15,4 +15,7 @@ interface UserDao {
 
     @Query("SELECT * FROM user_params ORDER BY data DESC LIMIT 1")
     suspend fun getLastParams() : UserParamsEntity
+
+    @Insert
+    suspend fun insertCalorieConsumption(value: CalorieConsumptionEntity)
 }

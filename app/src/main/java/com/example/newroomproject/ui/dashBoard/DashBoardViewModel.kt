@@ -31,6 +31,12 @@ class DashBoardViewModel @Inject constructor(
             )
         }
     }
+
+    fun insertCalorieConsumption(value:Int) {
+        viewModelScope.launch{
+            repository.insertCalorieConsumption(value)
+        }
+    }
 }
 
 data class UserParams(

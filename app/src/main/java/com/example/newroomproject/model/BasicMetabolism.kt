@@ -1,5 +1,6 @@
 package com.example.newroomproject.model
 
+import android.util.Log
 import com.example.newroomproject.ui.dashBoard.ParamsMap
 import kotlin.math.pow
 
@@ -11,6 +12,8 @@ interface BasicMetabolism {
     class HarrisBenedictMetabolism(): BasicMetabolism{
 
         override fun getBasicMetabolism(params: ParamsMap): Metabolism {
+
+            Log.i("!!!", "${params.age}")
             var genderRatio = 0
             genderRatio = if (params.weight == 0.0) {
                 0
