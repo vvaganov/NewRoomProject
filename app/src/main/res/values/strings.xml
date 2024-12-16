@@ -2,4 +2,12 @@
     <string name="app_name">NewRoomProject</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Input_params_title">Введите данные</string>
+    <string name="hint_input_weight">Укажите свой вес, кг</string>
+    <string name="hint_input_height">Укажите свой рост, см</string>
+    <string name="content_description_end_icon">календарь для выбора даты</string>
+    <string name="hint_input_date_of_birth">Дата рождения</string>
+    <string name="hint_input_gender">Укажите свой пол</string>
+    <string name="button_save">Сохранить</string>
+    <string name="hint_input_name">Укажие Ваше имя</string>
 </resources>
