@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.newroomproject.R
 import com.example.newroomproject.databinding.FragmentDashBoardBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DashBoardFragment : Fragment() {
 
     private val binding: FragmentDashBoardBinding by lazy { FragmentDashBoardBinding.inflate(layoutInflater) }
