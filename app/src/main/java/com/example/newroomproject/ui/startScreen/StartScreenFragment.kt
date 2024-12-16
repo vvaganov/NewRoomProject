@@ -17,6 +17,6 @@ class StartScreenFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_start_screen, container, false)
+        return binding.root
     }
 }
