@@ -1,9 +1,14 @@
 package com.example.newroomproject.ui.dashBoard
 
+import android.annotation.SuppressLint
 import android.util.Log
-import com.example.newroomproject.Converters
+import com.example.newroomproject.utils.Converters
 import com.example.newroomproject.data.user.UserDao
 import com.example.newroomproject.di.DataModule.IoDispatcher
+import com.example.newroomproject.model.BasicMetabolism
+import com.example.newroomproject.model.BasicMetabolism.HarrisBenedictMetabolism
+import kotlinx.coroutines.Dispatchers
+
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
@@ -14,19 +19,26 @@ class DashBoardRepository @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineContext
 ) {
 
-    suspend fun getLastUserParams() = withContext(ioDispatcher) {
-        Log.i("!!!", "fragment - ${params.getLastParams()}")
-        params.getLastParams()
-    }
+    private val metabolism: BasicMetabolism = HarrisBenedictMetabolism()
 
+    @SuppressLint("NewApi")
+    suspend fun getMetabolism() = withContext(Dispatchers.IO){
+        val params = params.getLastParams()
+        val userParams = ParamsMap(
+            weight = params.weight,
+            height = params.height,
+            age = converters.getFullYears(params.dateOfBirth),
+            gender = params.gender
+        )
+        metabolism.getBasicMetabolism(userParams)
+    }
 }
 
-data class UserParams(
-    val id: Long = 0,
-    val data: String = "",
-    val name: String = "",
-    val weight: Double = 0.0,
-    val height: Int = 0,
-    val age: String = "",
-    val gender: String = ""
+data class ParamsMap(
+    val weight: Double,
+    val height: Int,
+    val age: Int,
+    val gender: String
 )
+
+

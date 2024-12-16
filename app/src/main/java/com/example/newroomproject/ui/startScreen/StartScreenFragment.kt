@@ -12,13 +12,12 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import com.example.newroomproject.R
-import com.example.newroomproject.Converters
-import com.example.newroomproject.DatePickerFragment
+import com.example.newroomproject.utils.Converters
+import com.example.newroomproject.utils.DatePickerFragment
 import com.example.newroomproject.data.user.UserParamsEntity
 import com.example.newroomproject.databinding.FragmentStartScreenBinding
 import com.example.newroomproject.ui.dashBoard.DashBoardFragment
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.LocalDate
 import kotlin.getValue
 import kotlin.toString
 

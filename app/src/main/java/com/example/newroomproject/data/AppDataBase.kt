@@ -4,10 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.newroomproject.data.user.PowerConsumptionEntity
 import com.example.newroomproject.data.user.UserDao
 import com.example.newroomproject.data.user.UserParamsEntity
 
-@Database(entities = [UserParamsEntity::class], version = 1, exportSchema = false)
+@Database(entities = [UserParamsEntity::class, PowerConsumptionEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao

@@ -8,15 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.example.newroomproject.Converters
-import com.example.newroomproject.R
 import com.example.newroomproject.databinding.FragmentDashBoardBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DashBoardFragment : Fragment() {
 
-    private val binding: FragmentDashBoardBinding by lazy { FragmentDashBoardBinding.inflate(layoutInflater) }
+    private val binding: FragmentDashBoardBinding by lazy {
+        FragmentDashBoardBinding.inflate(
+            layoutInflater
+        )
+    }
 
     private val viewModel: DashBoardViewModel by viewModels()
 
@@ -24,8 +26,6 @@ class DashBoardFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
         return binding.root
     }
 
@@ -35,19 +35,11 @@ class DashBoardFragment : Fragment() {
 
         viewModel.initUser()
 
-        viewModel.profileUserState.observe(viewLifecycleOwner){ userParams ->
-            Log.i("!!!", "fragment - $userParams")
-            with(binding){
-                tvData.text= userParams.data
-                tvName.text = userParams.name
-                tvWeight.text = "Вес - ${userParams.weight}"
-                tvHeight.text = "Рост - ${userParams.height}"
-                tvAge.text = "Полных лет - ${userParams.age}"
-                tvGender.text = "Пол - ${userParams.gender}"
+        viewModel.profileUserState.observe(viewLifecycleOwner) { userParams ->
+            with(binding) {
+                tvData.text = "Основной обмен веществ: ${userParams.metabolism}"
 
             }
-
         }
-
     }
 }

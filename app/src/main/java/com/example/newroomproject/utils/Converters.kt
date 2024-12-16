@@ -1,4 +1,4 @@
-package com.example.newroomproject
+package com.example.newroomproject.utils
 
 import android.annotation.SuppressLint
 import android.os.Build

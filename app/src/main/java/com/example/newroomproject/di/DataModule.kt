@@ -1,7 +1,7 @@
 package com.example.newroomproject.di
 
 import android.content.Context
-import com.example.newroomproject.Converters
+import com.example.newroomproject.utils.Converters
 import com.example.newroomproject.data.AppDatabase
 import com.example.newroomproject.data.user.UserDao
 import dagger.Module
