@@ -12,4 +12,7 @@ interface UserDao {
 
     @Query("SELECT COUNT(*) FROM USER_PARAMS")
     suspend fun getRowCountUserParams(): Int
+
+    @Query("SELECT * FROM user_params ORDER BY data DESC LIMIT 1")
+    suspend fun getLastParams() : UserParamsEntity
 }

@@ -28,7 +28,7 @@ class DatePickerFragment(private val listener: OnDateSetListener) : DialogFragme
 
     @SuppressLint("DefaultLocale")
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
-        val formattedDate = String.format("%02d.%02d.%d", day, month + 1, year, )
+        val formattedDate = String.format("%02d.%02d.%d", day, month + 1, year)
         listener.onDateSet(formattedDate)
 
     }

@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey
 data class UserParamsEntity (
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
+    val data: Long,
     @ColumnInfo(name = "user_name")
     val name: String,
     val weight: Double,

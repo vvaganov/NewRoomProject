@@ -18,6 +18,7 @@ import com.example.newroomproject.data.user.UserParamsEntity
 import com.example.newroomproject.databinding.FragmentStartScreenBinding
 import com.example.newroomproject.ui.dashBoard.DashBoardFragment
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
 import kotlin.getValue
 import kotlin.toString
 
@@ -58,6 +59,7 @@ class StartScreenFragment : Fragment(), DatePickerFragment.OnDateSetListener {
             viewModel.insertUserParams(
                 UserParamsEntity(
                     id = 0,
+                    data = System.currentTimeMillis(),
                     name = binding.idInputName.text.toString(),
                     weight = binding.idInputWeight.text.toString().toDouble(),
                     height = binding.idInputHeight.text.toString().toInt(),
