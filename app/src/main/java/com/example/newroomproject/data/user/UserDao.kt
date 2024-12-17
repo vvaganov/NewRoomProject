@@ -17,8 +17,8 @@ interface UserDao {
     suspend fun getLastParams() : UserParamsEntity
 
     @Insert
-    suspend fun insertCalorieConsumption(value: CalorieConsumptionEntity)
+    suspend fun insertCalorieConsumption(value: CalorieSpendEntity)
 
     @Query("SELECT * FROM CALORIE_CONS WHERE data = :data")
-    suspend fun getAllConsumptions(data: String) : List<CalorieConsumptionEntity>
+    suspend fun getAllConsumptions(data: String) : List<CalorieSpendEntity>?
 }

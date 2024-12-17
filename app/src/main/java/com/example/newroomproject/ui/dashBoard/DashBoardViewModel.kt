@@ -16,29 +16,41 @@ import javax.inject.Inject
 class DashBoardViewModel @Inject constructor(
     private val repository: DashBoardRepository,
     private val converters: Converters
-    ): ViewModel() {
+) : ViewModel() {
 
-    private val _profileUserState = MutableLiveData(UserParams())
-    val profileUserState: LiveData<UserParams> get() = _profileUserState
+    private val _profileUserState = MutableLiveData(DashBoardUiState())
+    val profileUserState: LiveData<DashBoardUiState> get() = _profileUserState
+
 
     @SuppressLint("NewApi")
-    fun initUser(){
-        viewModelScope.launch{
+    fun initUser(data: String) {
+        viewModelScope.launch {
             _profileUserState.postValue(
                 profileUserState.value?.copy(
-                    metabolism = repository.getMetabolism().basicMetabolism.toInt()
+                    metabolism = repository.getFullMetabolismInDay(data).toInt(),
+                    currentData = data
                 )
             )
         }
     }
 
-    fun insertCalorieConsumption(value:Int) {
-        viewModelScope.launch{
-            repository.insertCalorieConsumption(value)
+    fun getCurrentData(): String {
+        return converters.timestampToString(System.currentTimeMillis())
+    }
+
+    fun changeToData(data: String) {
+        viewModelScope.launch {
+            _profileUserState.postValue(
+                profileUserState.value?.copy(
+                    metabolism = repository.getFullMetabolismInDay(data).toInt(),
+                    currentData = data
+                )
+            )
         }
     }
 }
 
-data class UserParams(
- val metabolism: Int = 0
+data class DashBoardUiState(
+    val metabolism: Int = 0,
+    val currentData: String = ""
 )
