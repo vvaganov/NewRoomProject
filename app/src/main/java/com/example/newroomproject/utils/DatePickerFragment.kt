@@ -1,4 +1,4 @@
-package com.example.newroomproject
+package com.example.newroomproject.utils
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -28,7 +28,7 @@ class DatePickerFragment(private val listener: OnDateSetListener) : DialogFragme
 
     @SuppressLint("DefaultLocale")
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
-        val formattedDate = String.format("%02d.%02d.%d", day, month + 1, year, )
+        val formattedDate = String.format("%02d.%02d.%d", day, month + 1, year)
         listener.onDateSet(formattedDate)
 
     }

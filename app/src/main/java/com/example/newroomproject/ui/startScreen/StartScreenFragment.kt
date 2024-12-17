@@ -12,8 +12,8 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import com.example.newroomproject.R
-import com.example.newroomproject.Converters
-import com.example.newroomproject.DatePickerFragment
+import com.example.newroomproject.utils.Converters
+import com.example.newroomproject.utils.DatePickerFragment
 import com.example.newroomproject.data.user.UserParamsEntity
 import com.example.newroomproject.databinding.FragmentStartScreenBinding
 import com.example.newroomproject.ui.dashBoard.DashBoardFragment
@@ -46,22 +46,20 @@ class StartScreenFragment : Fragment(), DatePickerFragment.OnDateSetListener {
 
         val dialogFragment = DatePickerFragment(this)
         val converters = Converters()
-        val format = "dd.MM.yyyy"
 
         binding.idLayoutDateOfBirth.setEndIconOnClickListener {
             dialogFragment.show(childFragmentManager, "data_fragment")
         }
 
         binding.buttonSaveParams.setOnClickListener {
-            val data = binding.idInputDateOfBirth.text.toString()
-
             viewModel.insertUserParams(
                 UserParamsEntity(
                     id = 0,
+                    data = converters.timestampToString(System.currentTimeMillis()),
                     name = binding.idInputName.text.toString(),
                     weight = binding.idInputWeight.text.toString().toDouble(),
                     height = binding.idInputHeight.text.toString().toInt(),
-                    dateOfBirth = converters.stringToTimestamp(data, format),
+                    dateOfBirth = binding.idInputDateOfBirth.text.toString(),
                     gender = binding.idInputGender.text.toString()
                 )
             )
@@ -69,7 +67,6 @@ class StartScreenFragment : Fragment(), DatePickerFragment.OnDateSetListener {
             parentFragmentManager.commit{
                 replace<DashBoardFragment>(R.id.fragment_container_view)
             }
-
         }
     }
 

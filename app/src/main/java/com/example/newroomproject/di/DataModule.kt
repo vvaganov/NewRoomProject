@@ -1,8 +1,10 @@
 package com.example.newroomproject.di
 
 import android.content.Context
+import com.example.newroomproject.utils.Converters
 import com.example.newroomproject.data.AppDatabase
 import com.example.newroomproject.data.user.UserDao
+import com.example.newroomproject.model.BasicMetabolism
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,5 +35,9 @@ class DataModule {
 
     @Provides
     fun provideUserParamsDao(appDatabase: AppDatabase): UserDao = appDatabase.userDao()
+
+    @Provides
+    fun providesConverter(): Converters = Converters()
+
 
 }
