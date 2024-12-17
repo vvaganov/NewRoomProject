@@ -12,7 +12,6 @@ import javax.inject.Inject
 
 class DashBoardRepository @Inject constructor(
     private val params: UserDao,
-
     private val converters: Converters,
 ) {
 
@@ -32,9 +31,12 @@ class DashBoardRepository @Inject constructor(
     }
 
     suspend fun insertCalorieConsumption(value: Int) = withContext(Dispatchers.IO) {
+        val currentTimesMills = System.currentTimeMillis()
+        val dataTime = converters.timestampToDateTimeObject(currentTimesMills)
         params.insertCalorieConsumption(
             CalorieConsumptionEntity(
-                dataTime = System.currentTimeMillis(),
+                data = dataTime.data,
+                time = dataTime.time,
                 value = value,
             )
         )

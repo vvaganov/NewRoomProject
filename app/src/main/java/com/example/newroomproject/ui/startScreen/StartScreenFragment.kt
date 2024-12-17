@@ -46,23 +46,20 @@ class StartScreenFragment : Fragment(), DatePickerFragment.OnDateSetListener {
 
         val dialogFragment = DatePickerFragment(this)
         val converters = Converters()
-        val format = "dd.MM.yyyy"
 
         binding.idLayoutDateOfBirth.setEndIconOnClickListener {
             dialogFragment.show(childFragmentManager, "data_fragment")
         }
 
         binding.buttonSaveParams.setOnClickListener {
-            val data = binding.idInputDateOfBirth.text.toString()
-
             viewModel.insertUserParams(
                 UserParamsEntity(
                     id = 0,
-                    data = System.currentTimeMillis(),
+                    data = converters.timestampToString(System.currentTimeMillis()),
                     name = binding.idInputName.text.toString(),
                     weight = binding.idInputWeight.text.toString().toDouble(),
                     height = binding.idInputHeight.text.toString().toInt(),
-                    dateOfBirth = converters.stringToTimestamp(data, format),
+                    dateOfBirth = binding.idInputDateOfBirth.text.toString(),
                     gender = binding.idInputGender.text.toString()
                 )
             )
@@ -70,7 +67,6 @@ class StartScreenFragment : Fragment(), DatePickerFragment.OnDateSetListener {
             parentFragmentManager.commit{
                 replace<DashBoardFragment>(R.id.fragment_container_view)
             }
-
         }
     }
 

@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class CalorieConsumptionEntity (
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    val dataTime: Long,
+    val data: String,
+    val time: String,
     val value: Int
 )

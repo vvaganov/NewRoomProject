@@ -11,4 +11,6 @@
     <string name="button_save">Сохранить</string>
     <string name="hint_input_name">Укажие Ваше имя</string>
     <string name="hint_input_count_calories">Укажите количество каллорий</string>
+    <string name="parish_energy">Расход</string>
+    <string name="arrival_energy">Приход</string>
 </resources>
