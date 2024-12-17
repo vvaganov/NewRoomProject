@@ -18,4 +18,7 @@ interface UserDao {
 
     @Insert
     suspend fun insertCalorieConsumption(value: CalorieConsumptionEntity)
+
+    @Query("SELECT * FROM CALORIE_CONS WHERE data = :data")
+    suspend fun getAllConsumptions(data: String) : List<CalorieConsumptionEntity>
 }
