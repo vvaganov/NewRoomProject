@@ -11,20 +11,17 @@ import kotlin.coroutines.CoroutineContext
 
 class CalorieSpendListRepository @Inject constructor(
     private val userDao: UserDao,
-    @IoDispatcher private val ioDispatcher: CoroutineContext,
-    private val converters: Converters) {
+    @IoDispatcher private val ioDispatcher: CoroutineContext) {
 
     suspend fun getAllConsumptions(data: String) = withContext(ioDispatcher){
         userDao.getAllConsumptions(data)
     }
 
-    suspend fun insertCalorieConsumption(value: Int) = withContext(ioDispatcher) {
-        val currentTimesMills = System.currentTimeMillis()
-        val dataTime = converters.timestampToDateTimeObject(currentTimesMills)
+    suspend fun insertCalorieConsumption(value: Int , data: String, time: String) = withContext(ioDispatcher) {
         userDao.insertCalorieConsumption(
             CalorieSpendEntity(
-                data = dataTime.data,
-                time = dataTime.time,
+                data = data,
+                time = time,
                 value = value,
             )
         )
