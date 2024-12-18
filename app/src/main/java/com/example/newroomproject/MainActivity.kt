@@ -10,7 +10,6 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import com.example.newroomproject.databinding.ActivityMainBinding
-import com.example.newroomproject.databinding.FragmentDashBoardBinding
 import com.example.newroomproject.ui.dashBoard.DashBoardFragment
 import com.example.newroomproject.ui.startScreen.StartScreenFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,15 +30,25 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        lifecycleScope.launch{
-            if (viewModel.getRowCount()){
-                supportFragmentManager.commit{
-                    replace<DashBoardFragment>(R.id.fragment_container_view)
+        lifecycleScope.launch {
+            if (viewModel.getRowCount()) {
+                if (supportFragmentManager.findFragmentByTag(DashBoardFragment::class.java.simpleName) == null) {
+                    supportFragmentManager.commit {
+                        replace<DashBoardFragment>(
+                            R.id.fragment_container_view,
+                            tag = DashBoardFragment::class.java.simpleName
+                        )
+                    }
                 }
-            } else{
-                supportFragmentManager.commit{
-                    replace<StartScreenFragment>(R.id.fragment_container_view)
+
+            } else {
+                if (supportFragmentManager.findFragmentByTag(StartScreenFragment::class.java.simpleName) == null) {
+                    supportFragmentManager.commit {
+                        replace<StartScreenFragment>(
+                            R.id.fragment_container_view,
+                            tag = StartScreenFragment::class.java.simpleName
+                        )
+                    }
                 }
             }
         }

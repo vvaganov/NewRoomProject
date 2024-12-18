@@ -1,42 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
-    android:paddingTop="40dp"
     android:paddingStart="16dp"
+    android:paddingTop="40dp"
     android:paddingEnd="16dp"
     android:paddingBottom="16dp"
-    android:gravity="center"
     tools:context=".ui.dashBoard.DashBoardFragment">
 
-    <LinearLayout
 
+    <TextView
+        android:id="@+id/tv_calendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        tools:text="18.09.1977"
+        android:textSize="24sp"
+        android:layout_marginBottom="16dp"
+        app:drawableEndCompat="@drawable/baseline_calendar_month_24" />
+
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="8dp"
         tools:ignore="UselessParent">
 
         <TextView
             android:id="@+id/tv_energy_parish"
-            android:gravity="center"
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/parish_energy"
-            android:textSize="16sp"/>
-
-        <TextView
             android:layout_weight="1"
             android:gravity="center"
+            android:text="@string/parish_energy"
+            android:textSize="16sp" />
+
+        <TextView
             android:id="@+id/tv_arrival_energy"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="@string/arrival_energy"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -44,26 +57,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="4dp"
         tools:ignore="UselessParent">
 
         <TextView
-            android:id="@+id/tv_number_energy_parish"
-            android:gravity="center"
-            android:layout_weight="1"
+            android:id="@+id/tv_number_calory_spend"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="40sp"
-            android:text="1950" />
-
-        <TextView
             android:layout_weight="1"
             android:gravity="center"
+            android:text="1950"
+            android:textSize="40sp" />
+
+        <TextView
             android:id="@+id/tv_number_arrival_energy"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="40sp"
-            android:text="1950" />
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="1950"
+            android:textSize="40sp" />
 
     </LinearLayout>
 
@@ -74,22 +86,22 @@
         android:orientation="horizontal">
 
         <Button
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:id="@+id/btn_parish_energy"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
             android:text="+ Расход" />
 
         <Button
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:id="@+id/btn_arrival_energy"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="+ Приход"/>
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:text="+ Приход" />
     </LinearLayout>
 
     <LinearLayout
@@ -99,31 +111,35 @@
 
         <TextView
             android:id="@+id/tvProtein"
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:gravity="center"/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/tvFast"
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:textSize="24sp"
-            tools:text="25"
-            android:gravity="center"/>
+            tools:text="25" />
 
         <TextView
             android:id="@+id/tvCarbohydrate"
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:gravity="center"/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="24sp" />
 
     </LinearLayout>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
 
 
 </LinearLayout>

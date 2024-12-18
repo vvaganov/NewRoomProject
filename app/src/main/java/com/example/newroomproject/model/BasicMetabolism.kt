@@ -13,7 +13,6 @@ interface BasicMetabolism {
 
         override fun getBasicMetabolism(params: ParamsMap): Metabolism {
 
-            Log.i("!!!", "${params.age}")
             var genderRatio = 0
             genderRatio = if (params.weight == 0.0) {
                 0

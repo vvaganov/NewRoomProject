@@ -12,7 +12,9 @@ import javax.inject.Inject
 class ActivityViewModel @Inject constructor(
     private val userParamsDao: UserDao) : ViewModel() {
 
+
     suspend fun getRowCount() = withContext(Dispatchers.IO) {
         userParamsDao.getRowCountUserParams() > 0
     }
+
 }

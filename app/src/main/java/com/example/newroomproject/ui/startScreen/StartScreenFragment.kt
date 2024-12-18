@@ -18,11 +18,13 @@ import com.example.newroomproject.data.user.UserParamsEntity
 import com.example.newroomproject.databinding.FragmentStartScreenBinding
 import com.example.newroomproject.ui.dashBoard.DashBoardFragment
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.getValue
 import kotlin.toString
 
 @AndroidEntryPoint
-class StartScreenFragment : Fragment(), DatePickerFragment.OnDateSetListener {
+class StartScreenFragment : Fragment() {
 
     private val binding: FragmentStartScreenBinding by lazy {
         FragmentStartScreenBinding.inflate(
@@ -40,22 +42,23 @@ class StartScreenFragment : Fragment(), DatePickerFragment.OnDateSetListener {
     }
 
     @SuppressLint("SetTextI18n")
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val dialogFragment = DatePickerFragment(this)
-        val converters = Converters()
+        val formater = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        val data = LocalDateTime.now()
 
         binding.idLayoutDateOfBirth.setEndIconOnClickListener {
-            dialogFragment.show(childFragmentManager, "data_fragment")
+            DatePickerFragment { dataTime ->
+                binding.idInputDateOfBirth.setText(data.format(formater))
+            }
         }
 
         binding.buttonSaveParams.setOnClickListener {
             viewModel.insertUserParams(
                 UserParamsEntity(
                     id = 0,
-                    data = converters.timestampToString(System.currentTimeMillis()),
+                    data = data.format(formater),
                     name = binding.idInputName.text.toString(),
                     weight = binding.idInputWeight.text.toString().toDouble(),
                     height = binding.idInputHeight.text.toString().toInt(),
@@ -65,12 +68,9 @@ class StartScreenFragment : Fragment(), DatePickerFragment.OnDateSetListener {
             )
 
             parentFragmentManager.commit{
-                replace<DashBoardFragment>(R.id.fragment_container_view)
+                replace<DashBoardFragment>(R.id.fragment_container_view, "DashBoardFragment")
             }
         }
     }
 
-    override fun onDateSet(date: String) {
-        binding.idInputDateOfBirth.setText(date)
-    }
 }

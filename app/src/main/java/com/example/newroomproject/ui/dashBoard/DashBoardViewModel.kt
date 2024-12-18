@@ -1,12 +1,9 @@
 package com.example.newroomproject.ui.dashBoard
 
 import android.annotation.SuppressLint
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.newroomproject.model.Metabolism
+import com.example.newroomproject.databinding.FragmentDashBoardBinding
 import com.example.newroomproject.utils.Converters
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,30 +12,34 @@ import javax.inject.Inject
 @HiltViewModel
 class DashBoardViewModel @Inject constructor(
     private val repository: DashBoardRepository,
-    private val converters: Converters
-    ): ViewModel() {
+    private val converters: Converters,
+) : ViewModel() {
 
-    private val _profileUserState = MutableLiveData(UserParams())
-    val profileUserState: LiveData<UserParams> get() = _profileUserState
-
-    @SuppressLint("NewApi")
-    fun initUser(){
-        viewModelScope.launch{
-            _profileUserState.postValue(
-                profileUserState.value?.copy(
-                    metabolism = repository.getMetabolism().basicMetabolism.toInt()
-                )
+    fun changeToData(data: String, binding: FragmentDashBoardBinding) {
+        viewModelScope.launch {
+            val state = DashBoardUiState(
+                metabolism = repository.getFullMetabolismInDay(data).toInt(),
             )
+            state.updateBinding(binding)
         }
     }
 
-    fun insertCalorieConsumption(value:Int) {
+    fun initUiState(data: String, binding: FragmentDashBoardBinding) {
         viewModelScope.launch{
-            repository.insertCalorieConsumption(value)
+            val state = DashBoardUiState(
+                metabolism = repository.getFullMetabolismInDay(data).toInt(),
+            )
+            state.updateBinding(binding)
+
         }
     }
 }
 
-data class UserParams(
- val metabolism: Int = 0
-)
+data class DashBoardUiState(
+    val metabolism: Int = 0,
+){
+    @SuppressLint("SetTextI18n")
+    fun updateBinding(binding: FragmentDashBoardBinding){
+        binding.tvNumberCalorySpend.text = metabolism.toString()
+    }
+}
