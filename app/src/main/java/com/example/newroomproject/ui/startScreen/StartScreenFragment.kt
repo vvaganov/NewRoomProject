@@ -50,8 +50,8 @@ class StartScreenFragment : Fragment() {
 
         binding.idLayoutDateOfBirth.setEndIconOnClickListener {
             DatePickerFragment { dataTime ->
-                binding.idInputDateOfBirth.setText(data.format(formater))
-            }
+                binding.idInputDateOfBirth.setText(dataTime.format(formater))
+            }.show(parentFragmentManager, "datePicker")
         }
 
         binding.buttonSaveParams.setOnClickListener {

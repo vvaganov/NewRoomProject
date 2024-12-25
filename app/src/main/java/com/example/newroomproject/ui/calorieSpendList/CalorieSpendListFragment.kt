@@ -27,7 +27,7 @@ class CalorieSpendListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return binding.root
     }
 
@@ -35,28 +35,50 @@ class CalorieSpendListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val args = arguments?.getString("key")
-        val dateTime = LocalDateTime.parse(args, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        val formaterData = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-        val formaterTime = DateTimeFormatter.ofPattern("HH:mm:ss")
-        val data = dateTime.format(formaterData)
-        val time = dateTime.format(formaterTime)
-        Log.i("!!!", "InBundle = $dateTime")
+        val dataTime = DateTimeParse(arguments?.getString("key")).dataTime()
+
+        val adapter = CalorieSpendListAdapter(emptyList())
+        binding.rvSpendList.adapter = adapter
+
+        viewModel.consumptionUiState.observe(viewLifecycleOwner) { state ->
+            adapter.dataSet = state.listConsumptions
+            adapter.notifyDataSetChanged()
+            binding.tvConsListTitle.text = state.data
+        }
 
         binding.btnSaveCons.setOnClickListener {
             viewModel.insertCalorieConsumption(
                 binding.inputConsumpCallorie.text.toString().toInt(),
-                data,
-                time,
+                dataTime.data,
+                dataTime.time,
             )
+            binding.inputConsumpCallorie.apply {
+                text?.clear()
+                hint = getString(R.string.input_spend_calorie)
+                clearFocus()
+            }
         }
+
         binding.btnBackToDashboard.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
 
-        viewModel.initUiState(binding = binding, data = data)
-
-
+        viewModel.initUiState(data = dataTime.data)
     }
 }
+
+class DateTimeParse(private val dataTime: String?) {
+
+    fun dataTime(): TimeData {
+        val dateTime = LocalDateTime.parse(dataTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        val data = dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+        val time = dateTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"))
+        return TimeData(data, time)
+    }
+}
+
+data class TimeData(val data: String, val time: String)
+
+
+
 

@@ -19,37 +19,30 @@ class CalorieConsumptionListViewModel @Inject constructor(
     private val converters: Converters
 ) : ViewModel() {
 
-//    private val _consumptionUiState = MutableLiveData(CalorieConsumptionListUiState())
-//    val consumptionUiState: LiveData<CalorieConsumptionListUiState> get() = _consumptionUiState
+    private val _consumptionUiState = MutableLiveData(CalorieConsumptionListUiState())
+    val consumptionUiState: LiveData<CalorieConsumptionListUiState> get() = _consumptionUiState
 
-    fun initUiState(data: String, binding: FragmentCalorieConsumptionListBinding) {
-        viewModelScope.launch{
-            val uiState = CalorieConsumptionListUiState(
-                data =  data,
-                listConsumptions = repository.getAllConsumptions(data) ?: emptyList()
+    fun initUiState(data: String) {
+        viewModelScope.launch {
+            _consumptionUiState.postValue(
+                consumptionUiState.value?.copy(
+                    data = data,
+                    listConsumptions = repository.getAllConsumptions(data) ?: emptyList()
+                )
             )
-            uiState.update(binding, data)
         }
     }
 
     fun insertCalorieConsumption(value: Int, data: String, time: String) {
         viewModelScope.launch {
             repository.insertCalorieConsumption(value, data, time)
+            initUiState(data)
         }
     }
 }
 
 
 data class CalorieConsumptionListUiState(
-    val data: String,
-    val listConsumptions: List<CalorieSpendEntity>
-) {
-    fun update(binding: FragmentCalorieConsumptionListBinding, data: String) {
-        val adapter = CalorieSpendListAdapter(emptyList())
-        binding.rvSpendList.adapter = adapter
-        adapter.dataSet = listConsumptions
-        binding.tvConsListTitle.text = data
-
-    }
-}
-
+    val data: String = "",
+    val listConsumptions: List<CalorieSpendEntity> = emptyList()
+)
