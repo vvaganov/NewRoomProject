@@ -14,4 +14,5 @@
     <string name="parish_energy">Расход</string>
     <string name="arrival_energy">Приход</string>
     <string name="load_error">Ошибка загрузки</string>
+    <string name="input_spend_calorie">Количество потраченных каллорий</string>
 </resources>

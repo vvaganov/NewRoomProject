@@ -30,11 +30,12 @@
             android:id="@+id/input_consump_callorie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Введите количество потраченных каллорий"
+            android:hint="@string/input_spend_calorie"
             android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="8dp"
         android:id="@+id/rvSpendList"
         android:layout_width="match_parent"
         android:layout_height="0dp"

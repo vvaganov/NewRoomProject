@@ -64,7 +64,6 @@ class DashBoardFragment : Fragment() {
             parentFragmentManager.commit {
                 replace<CalorieSpendListFragment>(R.id.fragment_container_view, null, bundle)
                 addToBackStack(null)
-                Log.i("!!!", "OutBundle - $bundle")
             }
         }
     }
