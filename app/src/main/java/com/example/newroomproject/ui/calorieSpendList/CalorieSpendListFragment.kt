@@ -2,18 +2,20 @@ package com.example.newroomproject.ui.calorieSpendList
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import com.example.newroomproject.databinding.FragmentCalorieConsumptionListBinding
 import com.example.newroomproject.R
+import com.example.newroomproject.ui.dashBoard.DashBoardFragment
+import com.example.newroomproject.utils.DatePickerFragment
+import com.example.newroomproject.utils.DateTimeParse
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class CalorieSpendListFragment : Fragment() {
@@ -35,7 +37,7 @@ class CalorieSpendListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val dataTime = DateTimeParse(arguments?.getString("key")).dataTime()
+        var selectedDataTime = DateTimeParse(arguments?.getSerializable("key") as LocalDateTime).dataTime()
 
         val adapter = CalorieSpendListAdapter(emptyList())
         binding.rvSpendList.adapter = adapter
@@ -43,15 +45,24 @@ class CalorieSpendListFragment : Fragment() {
         viewModel.consumptionUiState.observe(viewLifecycleOwner) { state ->
             adapter.dataSet = state.listConsumptions
             adapter.notifyDataSetChanged()
-            binding.tvConsListTitle.text = state.data
+            binding.tvCalendarSpend.text = state.data
+        }
+
+        binding.tvCalendarSpend.setOnClickListener {
+            DatePickerFragment() { dataTime ->
+                selectedDataTime = DateTimeParse(dataTime).dataTime()
+                viewModel.changeToData(dataTime)
+            }
+                .show(childFragmentManager, "datePicker")
         }
 
         binding.btnSaveCons.setOnClickListener {
             viewModel.insertCalorieConsumption(
                 binding.inputConsumpCallorie.text.toString().toInt(),
-                dataTime.data,
-                dataTime.time,
+                selectedDataTime.data,
+                selectedDataTime.time,
             )
+
             binding.inputConsumpCallorie.apply {
                 text?.clear()
                 hint = getString(R.string.input_spend_calorie)
@@ -60,24 +71,16 @@ class CalorieSpendListFragment : Fragment() {
         }
 
         binding.btnBackToDashboard.setOnClickListener {
-            parentFragmentManager.popBackStack()
+            parentFragmentManager.commit {
+                replace<DashBoardFragment>(R.id.fragment_container_view,)
+            }
         }
 
-        viewModel.initUiState(data = dataTime.data)
+        viewModel.initUiState(data = selectedDataTime.data)
     }
 }
 
-class DateTimeParse(private val dataTime: String?) {
 
-    fun dataTime(): TimeData {
-        val dateTime = LocalDateTime.parse(dataTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        val data = dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-        val time = dateTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"))
-        return TimeData(data, time)
-    }
-}
-
-data class TimeData(val data: String, val time: String)
 
 
 

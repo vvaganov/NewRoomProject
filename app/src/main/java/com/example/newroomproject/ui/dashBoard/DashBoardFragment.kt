@@ -16,7 +16,7 @@ import com.example.newroomproject.R
 import com.example.newroomproject.ui.calorieSpendList.CalorieSpendListFragment
 import com.example.newroomproject.utils.DatePickerFragment
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.time.ZoneId
 
 @AndroidEntryPoint
 class DashBoardFragment : Fragment() {
@@ -28,15 +28,12 @@ class DashBoardFragment : Fragment() {
     }
 
     private val viewModel: DashBoardViewModel by viewModels()
-
-    val formater = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-    var selectedDateTime = LocalDateTime.now()
-    val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+    private var selectedDateTime: LocalDateTime = LocalDateTime.now(ZoneId.systemDefault())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return binding.root
     }
 
@@ -44,23 +41,24 @@ class DashBoardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         initUiState(savedInstanceState)
+
+        viewModel.dashUiState.observe(viewLifecycleOwner) { state ->
+            binding.tvCalendar.text = state.data
+            binding.tvNumberCalorySpend.text = state.metabolism.toString()
+        }
 
         binding.tvCalendar.setOnClickListener {
             DatePickerFragment() { dataTime ->
                 selectedDateTime = dataTime
-                binding.tvCalendar.text = selectedDateTime.format(formater)
-                viewModel.changeToData(selectedDateTime.format(formater), binding)
+                viewModel.changeToData(selectedDateTime)
             }
                 .show(childFragmentManager, "datePicker")
-
         }
-
 
         binding.btnParishEnergy.setOnClickListener {
             val bundle = Bundle()
-            bundle.putString("key", selectedDateTime.format(formatter))
+            bundle.putSerializable("key", selectedDateTime)
             parentFragmentManager.commit {
                 replace<CalorieSpendListFragment>(R.id.fragment_container_view, null, bundle)
                 addToBackStack(null)
@@ -69,21 +67,11 @@ class DashBoardFragment : Fragment() {
     }
 
     private fun initUiState(savedInstanceState: Bundle?) {
-        if (savedInstanceState != null) {
-            binding.tvCalendar.text = savedInstanceState.getString("Key")
-            viewModel.initUiState(binding.tvCalendar.text.toString(), binding)
-
-        } else {
-            binding.tvCalendar.text = selectedDateTime.format(formater)
-            viewModel.initUiState(binding.tvCalendar.text.toString(), binding)
-        }
+        viewModel.initUiState(savedInstanceState)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val bundle = binding.tvCalendar.text.toString()
-        outState.putString("Key", bundle)
-        Log.i("!!!", "onSaveInstanceState: ${binding.tvCalendar.text}")
+        outState.putString("Key", binding.tvCalendar.text.toString())
     }
-
 }

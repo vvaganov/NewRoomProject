@@ -31,7 +31,7 @@ class DashBoardRepository @Inject constructor(
         )
     }
 
-    suspend fun getFullMetabolismInDay(data: String) = withContext(ioDispatcher){
+    suspend fun getFullMetabolismInDay(data: String?) = withContext(ioDispatcher){
         val expensesList = params.getAllConsumptions(data) ?: emptyList()
         val expensesSumInDay = expensesList.sumOf { it.value }
         getMetabolism().basicMetabolism + expensesSumInDay
