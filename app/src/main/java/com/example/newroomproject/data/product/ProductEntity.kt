@@ -14,8 +14,8 @@ data class ProductEntity(
     val carbohydrates: Double,
     val fiber: Double
 ){
-    fun mapToProduct(){
-        Product(
+    fun mapToProduct(): Product{
+        return Product(
             id = id,
             name = name,
             proteins = proteins,
@@ -33,4 +33,15 @@ data class Product(
     val fats: Double,
     val carbohydrates: Double,
     val fiber: Double
-)
+){
+    fun mapToProductEntity(): ProductEntity{
+        return ProductEntity(
+            id = id,
+            name = name,
+            proteins = proteins,
+            fats = fats,
+            carbohydrates = carbohydrates,
+            fiber = fiber
+        )
+    }
+}

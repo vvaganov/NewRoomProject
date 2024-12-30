@@ -16,7 +16,6 @@ import javax.inject.Inject
 @HiltViewModel
 class CalorieConsumptionListViewModel @Inject constructor(
     private val repository: CalorieSpendListRepository,
-    private val converters: Converters
 ) : ViewModel() {
 
     private val _consumptionUiState = MutableLiveData(CalorieConsumptionListUiState())
