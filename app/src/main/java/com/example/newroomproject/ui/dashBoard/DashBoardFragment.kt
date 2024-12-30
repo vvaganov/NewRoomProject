@@ -14,6 +14,7 @@ import com.example.newroomproject.databinding.FragmentDashBoardBinding
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.newroomproject.R
 import com.example.newroomproject.ui.calorieSpendList.CalorieSpendListFragment
+import com.example.newroomproject.ui.foodIntake.FoodIntakeFragment
 import com.example.newroomproject.utils.DatePickerFragment
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -57,17 +58,27 @@ class DashBoardFragment : Fragment() {
         }
 
         binding.btnParishEnergy.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putSerializable("key", selectedDateTime)
-            parentFragmentManager.commit {
-                replace<CalorieSpendListFragment>(R.id.fragment_container_view, null, bundle)
-                addToBackStack(null)
-            }
+           navigate(CalorieSpendListFragment())
+        }
+
+        binding.btnArrivalEnergy.setOnClickListener {
+            navigate(FoodIntakeFragment())
         }
     }
 
     private fun initUiState(savedInstanceState: Bundle?) {
         viewModel.initUiState(savedInstanceState)
+    }
+
+    private fun navigate(fragment: Fragment) {
+        val bundle = Bundle()
+        bundle.putSerializable("key", selectedDateTime)
+        fragment.arguments = bundle
+        parentFragmentManager.commit {
+            replace(R.id.fragment_container_view, fragment)
+            addToBackStack(null)
+        }
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
