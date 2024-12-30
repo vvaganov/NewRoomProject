@@ -7,24 +7,26 @@
     android:padding="16dp"
     tools:context=".ui.calorieSpendList.CalorieSpendListFragment">
 
+
     <TextView
-        android:id="@+id/tv_cons_list_title"
-        android:layout_width="match_parent"
+        android:id="@+id/tv_calendar_spend"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Текуща дата"
-        android:textSize="16sp"
+        android:drawablePadding="8dp"
         android:gravity="center"
-        android:padding="16dp"
+        android:textSize="24sp"
+        app:drawableEndCompat="@drawable/baseline_calendar_month_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="18.09.1977" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_cons_list_title">
+        app:layout_constraintTop_toBottomOf="@+id/tv_calendar_spend">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_consump_callorie"

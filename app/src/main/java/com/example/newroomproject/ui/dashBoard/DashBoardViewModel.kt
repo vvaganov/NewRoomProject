@@ -1,45 +1,64 @@
 package com.example.newroomproject.ui.dashBoard
 
 import android.annotation.SuppressLint
+import android.os.Bundle
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newroomproject.databinding.FragmentDashBoardBinding
-import com.example.newroomproject.utils.Converters
+import com.example.newroomproject.utils.DateTimeParse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.ZoneId
 import javax.inject.Inject
 
 @HiltViewModel
 class DashBoardViewModel @Inject constructor(
     private val repository: DashBoardRepository,
-    private val converters: Converters,
 ) : ViewModel() {
 
-    fun changeToData(data: String, binding: FragmentDashBoardBinding) {
+    private val _dashUiState = MutableLiveData(DashBoardUiState())
+    val dashUiState: LiveData<DashBoardUiState> get() = _dashUiState
+
+    fun changeToData(selectedData: LocalDateTime) {
+        val data = DateTimeParse(selectedData).dataTime().data
         viewModelScope.launch {
-            val state = DashBoardUiState(
-                metabolism = repository.getFullMetabolismInDay(data).toInt(),
+            _dashUiState.postValue(
+                dashUiState.value?.copy(
+                    data = data,
+                    metabolism = repository.getFullMetabolismInDay(data).toInt(),
+                )
             )
-            state.updateBinding(binding)
         }
     }
 
-    fun initUiState(data: String, binding: FragmentDashBoardBinding) {
-        viewModelScope.launch{
-            val state = DashBoardUiState(
-                metabolism = repository.getFullMetabolismInDay(data).toInt(),
-            )
-            state.updateBinding(binding)
+    fun initUiState(saveInstantState: Bundle?) {
 
+        viewModelScope.launch {
+            if (saveInstantState != null) {
+                _dashUiState.postValue(
+                    dashUiState.value?.copy(
+                        data = saveInstantState.getString("Key"),
+                        metabolism = repository.getFullMetabolismInDay(saveInstantState.getString("Key"))
+                            .toInt(),
+                    )
+                )
+            } else {
+                val data = DateTimeParse(LocalDateTime.now(ZoneId.systemDefault())).dataTime().data
+                _dashUiState.postValue(
+                    dashUiState.value?.copy(
+                        data = data,
+                        metabolism = repository.getFullMetabolismInDay(data).toInt(),
+                    )
+                )
+            }
         }
     }
 }
 
 data class DashBoardUiState(
+    val data: String? = "",
     val metabolism: Int = 0,
-){
-    @SuppressLint("SetTextI18n")
-    fun updateBinding(binding: FragmentDashBoardBinding){
-        binding.tvNumberCalorySpend.text = metabolism.toString()
-    }
-}
+)

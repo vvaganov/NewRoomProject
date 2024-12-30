@@ -5,12 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newroomproject.data.user.CalorieSpendEntity
-import com.example.newroomproject.databinding.FragmentCalorieConsumptionListBinding
-import com.example.newroomproject.databinding.FragmentDashBoardBinding
 import com.example.newroomproject.utils.Converters
+import com.example.newroomproject.utils.DateTimeParse
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,8 +39,19 @@ class CalorieConsumptionListViewModel @Inject constructor(
             initUiState(data)
         }
     }
-}
 
+    fun changeToData(dataTime: LocalDateTime) {
+        val data = DateTimeParse(dataTime).dataTime().data
+        viewModelScope.launch {
+            _consumptionUiState.postValue(
+                consumptionUiState.value?.copy(
+                    data = data,
+                    listConsumptions = repository.getAllConsumptions(data) ?: emptyList()
+                )
+            )
+        }
+    }
+}
 
 data class CalorieConsumptionListUiState(
     val data: String = "",
